@@ -2,6 +2,7 @@ var fs = require('fs');
 var uuid = require('uuid');
 var path = require('path');
 var settings = require('../settings');
+var querystring = require('querystring');
 
 
 module.exports = function(opts){
@@ -34,17 +35,40 @@ module.exports = function(opts){
     done(null, data)
   }
 
+  function search_by_name(name, done){
+    var found = {}
+    Object.keys(state.library).forEach(function(appid){
+      if(state.library[appid].name == name)
+        found[appid] = state.library[appid]
+    })
+
+    done(null, found)
+  }
+
   function get_app(appid, done){
     if(!state.library[appid]){
-      done('there is no app with id: ' + appid)
-      return
+      var found_apps = search_by_name(querystring.unescape(appid), function(err, found){
+        if(Object.keys(found).length ==0) return done('there is no app with id or name: ' + appid)
+
+        done(null, found[Object.keys(found)[0]])
+      })
     }
 
     done(null, state.library[appid])
   }
 
-  function list_apps(done){
-    done(null, state.library)
+  function list_apps(params, done){
+    var library = state.library
+
+    // add all filtering params here
+    if(params.search != undefined)
+      Object.keys(library).forEach(function(appid){
+        var app = library[appid]
+        if(app.name.indexOf(params.search) <0 && app.description.indexOf(params.search))
+          delete(library[appid])
+      })
+
+    done(null, library)
   }
 
   return {

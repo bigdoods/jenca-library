@@ -1,6 +1,8 @@
 var path = require('path')
 var JSONFileStorage = require('../storage/jsonfile')
 var concat = require('concat-stream')
+var url = require('url');
+
 
 module.exports = function(config){
 
@@ -10,7 +12,10 @@ module.exports = function(config){
     index:{
       GET:function(req, res, opts, cb){
         res.setHeader('content-type', 'application/json')
-        storage.list_apps(function(err, data){
+
+        var url_parts = url.parse(req.url, true);
+
+        storage.list_apps(url_parts.query, function(err, data){
           if(err){
             res.statusCode = 500;
             res.end(err.toString());
