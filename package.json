@@ -1,0 +1,35 @@
+{
+  "name": "jenca-library",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The jenca projects service",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jenca-cloud/jenca-library.git"
+  },
+  "author": "jenca",
+  "license": "APACHE2",
+  "bugs": {
+    "url": "https://github.com/jenca-cloud/jenca-library/issues"
+  },
+  "homepage": "https://github.com/jenca-cloud/jenca-library",
+  "devDependencies": {
+    "async": "^1.5.0",
+    "from2-string": "^1.1.0",
+    "hyperquest": "^1.2.0",
+    "hyperrequest": "0.0.4",
+    "tape": "^4.3.0",
+    "rimraf":"^2.5.1"
+  },
+  "dependencies": {
+    "concat-stream": "^1.5.1",
+    "http-hash-router": "^1.1.0",
+    "minimist": "^1.2.0",
+    "uuid": "^2.0.1",
+    "dot-object":"^1.3.1"
+  }
+}
