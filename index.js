@@ -17,10 +17,10 @@ var args = require('minimist')(process.argv, {
   }
 })
 
-var storage = require('storage/' + args.storage)(args)
+var storage = require('./storage/' + args.storage)(args)
 var router = Router({
   storage:storage,
-  datafile:datafile
+  datafile:args.datafile
 })
 
 var server = http.createServer(router.handler)
