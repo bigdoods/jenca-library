@@ -7,13 +7,13 @@ module.exports = function(config){
 
   var router = HttpHashRouter();
 
-  router.set('/v1/version', Version(config))
+  router.set('/v1/library/version', Version(config))
 
   var AppLibraryHandlers = AppLibrary(config)
 
   // fish out user id from headers
-  router.set('/v1/apps', AppLibraryHandlers.index)
-  router.set('/v1/apps/:appid', AppLibraryHandlers.show)
+  router.set('/v1/library', AppLibraryHandlers.index)
+  router.set('/v1/library/:appid', AppLibraryHandlers.show)
 
 
   function handler(req, res) {

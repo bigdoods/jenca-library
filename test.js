@@ -35,7 +35,7 @@ function createServer(done){
 /*
   Test that the version of the module returns the correct string
 */
-tape("GET /v1/version", function (t) {
+tape("GET /v1/library/version", function (t) {
 
   var config = require(path.join(__dirname, "package.json"))
   var server;
@@ -53,7 +53,7 @@ tape("GET /v1/version", function (t) {
 
     // read the version from the API
     function(next){
-      var req = hyperquest("http://127.0.0.1:"+testing_port+"/v1/version", {
+      var req = hyperquest("http://127.0.0.1:"+testing_port+"/v1/library/version", {
         method:"GET"
       })
 
@@ -94,7 +94,7 @@ tape("GET /v1/version", function (t) {
 
 */
 
-tape("GET /v1/apps", function (t) {
+tape("GET /v1/library", function (t) {
 
   var server;
 
@@ -113,7 +113,7 @@ tape("GET /v1/apps", function (t) {
     function(next){
       for(i=1;i<=10;i++)
         hyperrequest({
-          url: "http://127.0.0.1:"+ testing_port +"/v1/apps",
+          url: "http://127.0.0.1:"+ testing_port +"/v1/library",
           method: "POST",
           json: {name:'Testing App '+ i, description:"Something to test the app\nlibrary storage with."}
         }, function(err, resp){
@@ -126,7 +126,7 @@ tape("GET /v1/apps", function (t) {
     // test the length of projects matches
     function(next){
       hyperrequest({
-        "url":"http://127.0.0.1:"+ testing_port +"/v1/apps",
+        "url":"http://127.0.0.1:"+ testing_port +"/v1/library",
         method:"GET"
       }, function(err, resp){
         if(err) return next(err)
@@ -155,7 +155,7 @@ tape("GET /v1/apps", function (t) {
   seed the system with apps and retrieve one to check it's attributes
 
 */
-tape("GET /v1/apps/:appid", function (t) {
+tape("GET /v1/library/:appid", function (t) {
 
   var server;
   var test_app_id = null;
@@ -175,7 +175,7 @@ tape("GET /v1/apps/:appid", function (t) {
     function(next){
       for(var i=1;i<=10;i++){
         hyperrequest({
-          url: "http://127.0.0.1:"+ testing_port +"/v1/apps",
+          url: "http://127.0.0.1:"+ testing_port +"/v1/library",
           method: "POST",
           json: {name:'Testing App '+ i, description:"Something to test the app\nlibrary storage with."}
         }, function(err, resp){
@@ -197,7 +197,7 @@ tape("GET /v1/apps/:appid", function (t) {
     function(next){
 
       hyperrequest({
-        "url": "http://127.0.0.1:"+testing_port+"/v1/apps/"+ test_app_id,
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/"+ test_app_id,
         method:"GET"
       }, function(err, resp){
         if(err) return subnext(err)
@@ -228,7 +228,7 @@ tape("GET /v1/apps/:appid", function (t) {
   seed the system with apps and retrieve one to check it's attributes
 
 */
-tape("GET /v1/apps/:appname", function (t) {
+tape("GET /v1/library/:appname", function (t) {
 
   var server;
   var test_app_name = null;
@@ -248,7 +248,7 @@ tape("GET /v1/apps/:appname", function (t) {
     function(next){
       for(var i=1;i<=10;i++){
         hyperrequest({
-          url: "http://127.0.0.1:"+ testing_port +"/v1/apps",
+          url: "http://127.0.0.1:"+ testing_port +"/v1/library",
           method: "POST",
           json: {name:'Testing App '+ i, description:"Something to test the app\nlibrary storage with."}
         }, function(err, resp){
@@ -270,7 +270,7 @@ tape("GET /v1/apps/:appname", function (t) {
     function(next){
 
       hyperrequest({
-        "url": "http://127.0.0.1:"+testing_port+"/v1/apps/"+ test_app_name,
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/"+ test_app_name,
         method:"GET"
       }, function(err, resp){
         if(err) return subnext(err)
@@ -302,7 +302,7 @@ tape("GET /v1/apps/:appname", function (t) {
 
 */
 
-tape("GET /v1/apps?search=App 4", function (t) {
+tape("GET /v1/library?search=App 4", function (t) {
 
   var server;
 
@@ -321,7 +321,7 @@ tape("GET /v1/apps?search=App 4", function (t) {
     function(next){
       for(i=1;i<=10;i++)
         hyperrequest({
-          url: "http://127.0.0.1:"+ testing_port +"/v1/apps",
+          url: "http://127.0.0.1:"+ testing_port +"/v1/library",
           method: "POST",
           json: {name:'Testing App '+ i, description:"Something to test the app\nlibrary storage with."}
         }, function(err, resp){
@@ -334,7 +334,7 @@ tape("GET /v1/apps?search=App 4", function (t) {
     // test the length of projects matches
     function(next){
       hyperrequest({
-        "url":"http://127.0.0.1:"+ testing_port +"/v1/apps?search=App 4",
+        "url":"http://127.0.0.1:"+ testing_port +"/v1/library?search=App 4",
         method:"GET"
       }, function(err, resp){
         if(err) return next(err)
