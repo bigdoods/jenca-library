@@ -3,12 +3,12 @@ var uuid = require('uuid');
 var path = require('path');
 var settings = require('../settings');
 var querystring = require('querystring');
-
+var apploader = require('./apploader');
 
 module.exports = function(opts){
 
   opts = opts || {}
-  var state = {}
+  var state = null
 
   var file = opts.datafile || settings.defaultFilePath
   if(!fs.existsSync(file)){
@@ -18,7 +18,7 @@ module.exports = function(opts){
 
   function reset_state(){
     state = {
-      library:{}
+      library:apploader()
     }
   }
 

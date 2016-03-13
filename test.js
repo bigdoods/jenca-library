@@ -11,6 +11,7 @@ var concat = require("concat-stream")
 var settings = require('./settings')
 var rimraf = require("rimraf")
 var querystring = require('querystring');
+var fs = require('fs')
 
 var testing_port = 8060
 
@@ -131,7 +132,10 @@ tape("GET /v1/library", function (t) {
       }, function(err, resp){
         if(err) return next(err)
         t.equal(resp.statusCode, 200, "The status code == 200")
-        t.equal(Object.keys(resp.body).length, 10, "the number of apps matches")
+
+        var applist = fs.readdirSync(path.join(__dirname, 'apps'))
+        // there are 10 plus 
+        t.equal(Object.keys(resp.body).length, 10 + applist.length, "the number of apps matches")
 
         next()
       })
@@ -346,6 +350,58 @@ tape("GET /v1/library?search=App 4", function (t) {
       })
 
     },
+  ], function(err){
+    if(err){
+      t.error(err)
+      server.close()
+      t.end()
+      return
+    }
+    server.close()
+    t.end()
+  })
+
+})
+
+
+
+/*
+
+  Check the initial data being loaded by the apploader
+
+*/
+
+tape("test the apploader", function (t) {
+
+  var server;
+
+  async.series([
+
+    // create the server
+    function(next){
+      createServer(function(err, s){
+        if(err) return next(err)
+        server = s
+        next()
+      })
+    },
+
+    // check the bimserver exists
+    
+    function(next){
+
+      hyperrequest({
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/bimserver",
+        method:"GET"
+      }, function(err, resp){
+        if(err) return subnext(err)
+
+        t.equal(resp.statusCode, 200, "The status code == 200")
+        t.equal(resp.body.name, 'bimserver', "the requested app's name matches")
+
+        next()
+      })
+    }
   ], function(err){
     if(err){
       t.error(err)
