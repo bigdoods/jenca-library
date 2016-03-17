@@ -1,1 +1,1 @@
-This is the description for the bimserver
+The Building Information Model server (BIMserver.org) platform enables you to create your own BIMserver. The software core is based on the open standard IFC and therefore knows how to handle IFC data.

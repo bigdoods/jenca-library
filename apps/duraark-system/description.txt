@@ -1,0 +1,1 @@
+DURAARK is a "semantic building information modeling (BIM) archival and retrieval system".
