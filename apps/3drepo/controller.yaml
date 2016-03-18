@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: 3drepo
+  name: 3drepo-controller
+spec:
+  replicas: 1
+  selector:
+    app: 3drepo
+  template:
+    metadata:
+      name: 3drepo
+      labels:
+        app: 3drepo
+    spec:
+      containers:
+      - name: 3drepo
+        image: 3drepo
+        ports:
+        - containerPort: 8080
+        

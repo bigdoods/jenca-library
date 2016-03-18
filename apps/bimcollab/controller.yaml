@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: bimcollab
+  name: bimcollab-controller
+spec:
+  replicas: 1
+  selector:
+    app: bimcollab
+  template:
+    metadata:
+      name: bimcollab
+      labels:
+        app: bimcollab
+    spec:
+      containers:
+      - name: bimcollab
+        image: bimcollab
+        ports:
+        - containerPort: 8080
+        
