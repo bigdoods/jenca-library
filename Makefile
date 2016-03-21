@@ -14,6 +14,10 @@ devimage:
 	docker rmi $(HUBACCOUNT)/$(SERVICE):$(VERSION)-dev || true
 	docker build -f Dockerfile.dev -t $(HUBACCOUNT)/$(SERVICE):latest-dev .
 	docker tag $(HUBACCOUNT)/$(SERVICE):latest-dev $(HUBACCOUNT)/$(SERVICE):$(VERSION)-dev
+	@docker run -ti --rm \
+		--entrypoint "bash" \
+		-v $(PWD)/src/api:/srv/app \
+		jenca-cloud/$(SERVICE):$(VERSION) -c "cd /srv/app && npm install"
 
 prodimage:
 	docker rmi $(HUBACCOUNT)/$(SERVICE):$(VERSION) || true

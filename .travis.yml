@@ -6,7 +6,6 @@ services:
   - docker
 install:
   - make devimage
-  - npm install
   - make test
 # Post to Slack
 notifications:
