@@ -19,3 +19,10 @@ For development and testing, within jenca-library directory run:
 ```bash
 $ npm test
 ```
+
+## Notes
+
+`/apps` contains the RCs and services for K8S to run hosted apps
+`/links` contains the descriptions and hyperlinks for externally linked apps
+
+thumbnails for apps are found in `/assests/thumbnails` in the jenca-gui repo
