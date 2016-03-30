@@ -1,1 +1,0 @@
-BIMcollab centralizes issue management in the cloud, simplifies this process and offers a structured way of storing, sharing and managing issues.
