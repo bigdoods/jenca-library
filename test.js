@@ -134,7 +134,14 @@ tape("GET /v1/library", function (t) {
         t.equal(resp.statusCode, 200, "The status code == 200")
 
         var applist = fs.readdirSync(path.join(__dirname, 'apps'))
-        // there are 10 plus 
+        
+        applist = applist.filter(function(appname){
+          var controllerExists = fs.existsSync(path.join(__dirname, 'apps', appname, 'controller.yaml'))
+          var urlExists = fs.existsSync(path.join(__dirname, 'apps', appname, 'url.txt'))
+          return (controllerExists || urlExists) 
+        })
+
+        // there are 10 plus as previous tests added apps to library         
         t.equal(Object.keys(resp.body).length, 10 + applist.length, "the number of apps matches")
 
         next()

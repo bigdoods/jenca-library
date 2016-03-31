@@ -44,7 +44,10 @@ module.exports = function(opts){
   var library = {}
 
   apps.forEach(function(appname){
-    library[appname] = loadApp(appname)
+    var app = loadApp(appname)
+    if (app.controller || app.url){
+      library[appname] = app
+    }
   })
 
   return library
