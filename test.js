@@ -421,3 +421,72 @@ tape("test the apploader", function (t) {
   })
 
 })
+
+/*
+
+  Test the typefield
+
+*/
+
+tape("test the typefield", function (t) {
+
+  var server;
+
+  async.series([
+
+    // create the server
+    function(next){
+      createServer(function(err, s){
+        if(err) return next(err)
+        server = s
+        next()
+      })
+    },
+
+    // check the bimserver of type runnable
+    
+    function(next){
+
+      hyperrequest({
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/bimserver",
+        method:"GET"
+      }, function(err, resp){
+        if(err) return subnext(err)
+
+        t.equal(resp.statusCode, 200, "The status code == 200")
+        t.equal(resp.body.type, 'runnable', "the requested app's type matches")
+
+        next()
+      })
+    },
+
+    // check the basestone of type runnable
+    
+    function(next){
+
+      hyperrequest({
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/basestone",
+        method:"GET"
+      }, function(err, resp){
+        if(err) return subnext(err)
+
+        t.equal(resp.statusCode, 200, "The status code == 200")
+        t.equal(resp.body.type, 'link', "the requested app's type matches")
+
+        next()
+      })
+    }
+
+  ], function(err){
+    if(err){
+      t.error(err)
+      server.close()
+      t.end()
+      return
+    }
+    server.close()
+    t.end()
+  })
+
+})
+
