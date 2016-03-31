@@ -454,7 +454,7 @@ tape("test the typefield", function (t) {
         if(err) return subnext(err)
 
         t.equal(resp.statusCode, 200, "The status code == 200")
-        t.equal(resp.body.type, 'runnable', "the requested app's type matches")
+        t.equal(resp.body.type, 'run', "the requested app's type matches")
 
         next()
       })
