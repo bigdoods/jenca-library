@@ -1,0 +1,1 @@
+Mobile Site Diary replaces the existing paper site diary, daily records or site journal, where site engineers record events that have happened on their projects.

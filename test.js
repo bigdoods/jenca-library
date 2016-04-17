@@ -134,7 +134,14 @@ tape("GET /v1/library", function (t) {
         t.equal(resp.statusCode, 200, "The status code == 200")
 
         var applist = fs.readdirSync(path.join(__dirname, 'apps'))
-        // there are 10 plus 
+        
+        applist = applist.filter(function(appname){
+          var controllerExists = fs.existsSync(path.join(__dirname, 'apps', appname, 'controller.yaml'))
+          var urlExists = fs.existsSync(path.join(__dirname, 'apps', appname, 'url.txt'))
+          return (controllerExists || urlExists) 
+        })
+
+        // there are 10 plus as previous tests added apps to library         
         t.equal(Object.keys(resp.body).length, 10 + applist.length, "the number of apps matches")
 
         next()
@@ -414,3 +421,72 @@ tape("test the apploader", function (t) {
   })
 
 })
+
+/*
+
+  Test the typefield
+
+*/
+
+tape("test the typefield", function (t) {
+
+  var server;
+
+  async.series([
+
+    // create the server
+    function(next){
+      createServer(function(err, s){
+        if(err) return next(err)
+        server = s
+        next()
+      })
+    },
+
+    // check the bimserver of type runnable
+    
+    function(next){
+
+      hyperrequest({
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/bimserver",
+        method:"GET"
+      }, function(err, resp){
+        if(err) return subnext(err)
+
+        t.equal(resp.statusCode, 200, "The status code == 200")
+        t.equal(resp.body.type, 'run', "the requested app's type matches")
+
+        next()
+      })
+    },
+
+    // check the basestone of type runnable
+    
+    function(next){
+
+      hyperrequest({
+        "url": "http://127.0.0.1:"+testing_port+"/v1/library/basestone",
+        method:"GET"
+      }, function(err, resp){
+        if(err) return subnext(err)
+
+        t.equal(resp.statusCode, 200, "The status code == 200")
+        t.equal(resp.body.type, 'link', "the requested app's type matches")
+
+        next()
+      })
+    }
+
+  ], function(err){
+    if(err){
+      t.error(err)
+      server.close()
+      t.end()
+      return
+    }
+    server.close()
+    t.end()
+  })
+
+})
+

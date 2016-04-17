@@ -34,6 +34,12 @@ function loadApp(appname){
   data.id = uuid.v1()
   data.name = appname
   data.description = data.description || ''
+  if (data.url){
+    data.type = "link"
+  }
+  if (data.controller){
+    data.type = "run"
+  }
 
   return data
   
@@ -43,8 +49,11 @@ module.exports = function(opts){
   var apps = fs.readdirSync(libraryFolder)
   var library = {}
 
-  apps.forEach(function(appname){
-    library[appname] = loadApp(appname)
+  apps.forEach(function (appname){
+    var app = loadApp(appname)
+    if (app.controller || app.url){
+      library[appname] = app
+    }
   })
 
   return library

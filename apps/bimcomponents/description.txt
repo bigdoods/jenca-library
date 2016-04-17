@@ -1,0 +1,1 @@
+This cloud-based ArchiCAD-integrated community database collects and provides direct access to GDL elements.
